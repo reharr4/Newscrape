@@ -39,7 +39,6 @@ app.get("/scrape", (req,res) =>{
 
         // add text and href of every link and save as properties of result object
         result.title = $(this)
-        // .children(".entry-title")
         .text();
         result.link = $(this)
         .children("a")
