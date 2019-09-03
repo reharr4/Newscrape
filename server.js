@@ -1,5 +1,6 @@
 var express = require("express");
 var mongoose = require("mongoose");
+var logger = require("morgan");
 
 // scraping tools
 var axios = require("axios");
@@ -23,26 +24,26 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // connect to Mongo DB
-mongoose.connect("mongodb://localhost/", { useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true});
 
 // Routes
 
 // GET route for scraping
 app.get("/scrape", (req,res) =>{
-    axios.get("").then(function(response){
+    axios.get("https://www.livescience.com/strange-news").then(function(response){
         const $ = cheerio.load(response.data);
 
         // grab whatchu gonna grab from website
-    $("").each(function(i, element){
+    $(".article-name").each(function(i, element){
         const result = {};
 
         // add text and href of every link and save as properties of result object
         result.title = $(this)
-        .children("")
+        .children("synopsis")
         .text();
         result.link = $(this)
-        .children("")
-        .attr("");
+        .children("a")
+        .attr("href");
 
         // create new article using 'result' object built from scraping
         db.Article.create(result)
@@ -114,5 +115,5 @@ app.post("/articles/:id", function(req,res){
 
 // start the server
 app.listen(PORT, function(){
-    console.log("App is runnign on port " + PORT + "!");
+    console.log("App is running on port " + PORT + "!");
 });
