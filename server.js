@@ -30,20 +30,26 @@ mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true})
 
 // GET route for scraping
 app.get("/scrape", (req,res) =>{
-    axios.get("https://www.livescience.com/strange-news").then(function(response){
-        const $ = cheerio.load(response.data);
+    axios.get("https://www.democracynow.org/").then(function(response){
+        var $ = cheerio.load(response.data);
 
         // grab whatchu gonna grab from website
-    $(".article-name").each(function(i, element){
-        const result = {};
+    $("h3").each(function(i, element){
+        var result = {};
 
         // add text and href of every link and save as properties of result object
         result.title = $(this)
-        .children("synopsis")
+        // .children(".entry-title")
         .text();
         result.link = $(this)
         .children("a")
         .attr("href");
+        // result.byline = $(this)
+        // .children("p")
+        // .attr("");
+        // result.about = $(this)
+        // .children("p")
+        // .attr("");
 
         // create new article using 'result' object built from scraping
         db.Article.create(result)
