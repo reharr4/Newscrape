@@ -30,19 +30,24 @@ mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true})
 
 // GET route for scraping
 app.get("/scrape", (req,res) =>{
-    axios.get("https://www.democracynow.org/").then(function(response){
+    axios.get("https://www.nytimes.com/section/arts").then(function(response){
         var $ = cheerio.load(response.data);
 
         // grab whatchu gonna grab from website
-    $("h3").each(function(i, element){
+    $(".theme-summary").each(function(i, element){
+
         var result = {};
 
         // add text and href of every link and save as properties of result object
-        result.title = $(this)
-        .text();
-        result.link = $(this)
-        .children("a")
-        .attr("href");
+        result.title = $(this).children(".story-body").text();
+        // var link = $(this).children().attr();
+        // result.lead = $(this).children(".summary").text();
+        // result.link = $(this)
+        // .children("a")
+        // .attr("href");
+        // result.label = $(this)
+        // .children("")
+        // .text();
         // result.byline = $(this)
         // .children("p")
         // .attr("");
