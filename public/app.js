@@ -1,7 +1,7 @@
 $.getJSON("/articles", function(data){
-    for(let i = 0; i<data.length; i++){
+    for(var i = 0; i<data.length; i++){
         // display appropriate information on page
-        $("articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+        $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" +  data[i].lead + "<br />" + data[i].byline + "</p>");
     }
 });
 
@@ -10,7 +10,7 @@ $(document).on("click", "p", function(){
     // empty notes from note section
     $("#notes").empty();
     // save id from p tag
-    const thisId = $(this).attr("data-id");
+    var thisId = $(this).attr("data-id");
 
     // make ajax call for the Article
     $.ajax({
@@ -21,7 +21,7 @@ $(document).on("click", "p", function(){
     .then(function(data){
         console.log(data);
         // title of article
-        $("#notes").append("" + data.title + "");
+        $("#notes").append("<h2>" + data.title + "</h2>");
         // input to enter new title
         $("#notes").append("<input id='titleinput' name-'title' >");
         // textarea to add new note
