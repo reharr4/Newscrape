@@ -9,7 +9,7 @@ var cheerio = require("cheerio");
 // require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = 3030;
 
 // initialize express
 var app = express();
@@ -34,23 +34,15 @@ app.get("/scrape", (req,res) =>{
         var $ = cheerio.load(response.data);
 
         // grab whatchu gonna grab from website
-    $(".theme-summary").each(function(i, element){
+    $(".story-body").each(function(i, element){
 
         var result = {};
 
         // add text and href of every link and save as properties of result object
-        result.title = $(this).children(".story-body").text();
+        result.title = $(this).children(".headline").text().trim();
         // var link = $(this).children().attr();
-        // result.lead = $(this).children(".summary").text();
-        // result.link = $(this)
-        // .children("a")
-        // .attr("href");
-        // result.label = $(this)
-        // .children("")
-        // .text();
-        // result.byline = $(this)
-        // .children("p")
-        // .attr("");
+        result.lead = $(this).children(".summary").text().trim();
+        result.byline = $(this).children(".byline").text().trim();
         // result.about = $(this)
         // .children("p")
         // .attr("");
