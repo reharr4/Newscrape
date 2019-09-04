@@ -15,7 +15,7 @@ $(document).on("click", "p", function(){
     // make ajax call for the Article
     $.ajax({
         method: "GET",
-        url: "/articles/" + thisID
+        url: "/articles/" + thisId
     })
     // add note information
     .then(function(data){
@@ -25,7 +25,7 @@ $(document).on("click", "p", function(){
         // input to enter new title
         $("#notes").append("<input id='titleinput' name-'title' >");
         // textarea to add new note
-        $("#notes").append("<textarea id ='bodyinput' name=body'></textarea");
+        $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
         // button to submit new note with article id saved to
         $("#notes").append("<button data-id='" + data._id + "'id='savenote'>Save Note</button>");
 
