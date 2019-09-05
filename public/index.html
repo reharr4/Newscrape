@@ -1,63 +1,25 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NewScrape</title>
-    <style>
-        body { background-image: url("/images/newsprint-background.jpeg")}
-        #container {
-          width: 960px;
-          margin-left: auto;
-          margin-right: auto;
-          background-color: rgb(235, 226, 226);
-          align-content: center;
-          padding-top: 3rem;
-        }
-        h1{
-            font-weight: bolder;
-            font-size: 3.5em;
-            padding-left: 21rem;
-            padding-bottom: 3rem;
-            padding-right: 17rem
-        }
-        #articles {
-          display: inline-block;
-          overflow: auto;
-          width: 60%;
-          height: 700px;
-          padding-left: 3rem;
-        }
-        #notes {
-          float: right;
-          width: 30%;
-          padding-right: 1.5rem;
-          padding-left: 1.5rem;
-        }
-        textarea, input {
-          display: block;
-          width: 100%;
-          background-color: #FCF5C7;
-        }
-        input {
-          height: 36px;
-          font-size: 24px;
-        }
-        textarea {
-          height: 200px;
-          font-size: 18px;
-        }
-      </style>
-</head>
+
+
+
 <body>
+    <nav>
+        <div class="nav-wrapper cyan darken-1">
+            <a href="#" class="brand-logo">NewScraper</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/savedarticles">Saved Articles</a></li>
+                <li><a href="/scrape">Get New Articles</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="image-container">
+        <div class="text">NewScraper</div>
+    </div>
     <div id="container">
-        <h1>NewScraper</h1>
-        <hr>
         <div id="articles"></div>
         <div id="notes"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

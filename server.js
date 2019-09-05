@@ -10,7 +10,10 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = 3030;
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+mongoose.connect(MONGODB_URI);
 // initialize express
 var app = express();
 
@@ -24,7 +27,16 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // connect to Mongo DB
-mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true});
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true});
+
+// create new User document
+db.User.create({name: ""})
+.then(function(dbUser){
+    console.log(dbUser);
+})
+.catch(function(err){
+    console.log(err.message);
+});
 
 // Routes
 
@@ -111,6 +123,71 @@ app.post("/articles/:id", function(req,res){
         res.json(err);
     });
 });
+
+// route for saving/updating Articles associated Note
+app.post("/articles/:id", function(req,res){
+    // create notes and pass req.body to entry
+    db.Note.create(req.body)
+    .then(function(dbNote){
+        // if note successfully created, find one Article with id equal to req.params.id
+        // Update Article to be associated with new Note
+        // {new: true} tells query that we want to return updated (returns original by default)
+        // mongoose returns a promise, we can chain another '.then' to receive result of query
+    return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
+    })
+    .then(function(dbArticle){
+        // successfully update Article, send back to client
+        res.json(dbArticle);
+    })
+    .catch(function(err){
+        // unsuccessful in update, send error to client
+        res.json(err);
+    });
+});
+
+// get all Notes
+app.get("/notes", function(req, res){
+    // find all Notes
+    db.Note.find({})
+    .then(function(dbNote){
+        // if all Notes are successfully found, return to client
+        res.json(dbNote);
+    })
+    .catch(function(err){
+        // return error if one occurs
+        console.log(err);
+    });
+});
+
+// get all Users
+app.get("/user", function(req, res){
+    // find all Users
+    dbUser.find({})
+    .then(function(dbUser){
+        // if all Users are successfully found, return to client
+        res.json(dbUser);
+    })
+    .catch(function(err){
+        // return error if one occurs
+        console.log(err);
+    });
+});
+
+// Route to get all User's and populate them with their notes
+app.get("/populateduser", function(req, res) {
+    // Find all users
+    db.User.find({})
+      // Specify that we want to populate the retrieved users with any associated notes
+      .populate("notes")
+      .then(function(dbUser) {
+        // If able to successfully find and associate all Users and Notes, send them back to the client
+        res.json(dbUser);
+      })
+      .catch(function(err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+      });
+  });
 
 // start the server
 app.listen(PORT, function(){
