@@ -1,0 +1,33 @@
+{
+  "name": "newscrape",
+  "version": "1.0.0",
+  "description": "mongo and mongoose data scraping",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reharr4/Newscrape.git"
+  },
+  "keywords": [
+    "mongodb",
+    "mongoose",
+    "scrape"
+  ],
+  "author": "Rachel Harrison",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reharr4/Newscrape/issues"
+  },
+  "homepage": "https://github.com/reharr4/Newscrape#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.6.11",
+    "morgan": "^1.9.1"
+  }
+}
