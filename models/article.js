@@ -24,7 +24,7 @@ var ArticleSchema = new Schema({
     note: {
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    },
 });
 
 // create model from schema above using mongoose's model method
