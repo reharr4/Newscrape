@@ -15,6 +15,7 @@ var PORT = process.env.PORT || 3030;
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 mongoose.connect(MONGODB_URI);
+
 // initialize express
 var app = express();
 
@@ -29,15 +30,8 @@ app.use(express.static("public"));
 
 // connect to Mongo DB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true});
+// mongoose.connect("mongodb://localhost/mongoHeadlines", {useNewUrlParser: true});
 
-// create new User document
-db.User.create({name: ""})
-.then(function(dbUser){
-    console.log(dbUser);
-})
-.catch(function(err){
-    console.log(err.message);
-});
 
 // Routes
 
@@ -68,9 +62,6 @@ app.get("/scrape", (req,res) =>{
             console.log(err);
         });
     });
-
-    // send message to user
-    res.send("Scrape Complete");
 });
 });
 
@@ -159,36 +150,6 @@ app.get("/notes", function(req, res){
         console.log(err);
     });
 });
-
-// get all Users
-app.get("/user", function(req, res){
-    // find all Users
-    dbUser.find({})
-    .then(function(dbUser){
-        // if all Users are successfully found, return to client
-        res.json(dbUser);
-    })
-    .catch(function(err){
-        // return error if one occurs
-        console.log(err);
-    });
-});
-
-// Route to get all User's and populate them with their notes
-app.get("/populateduser", function(req, res) {
-    // Find all users
-    db.User.find({})
-      // Specify that we want to populate the retrieved users with any associated notes
-      .populate("notes")
-      .then(function(dbUser) {
-        // If able to successfully find and associate all Users and Notes, send them back to the client
-        res.json(dbUser);
-      })
-      .catch(function(err) {
-        // If an error occurs, send it back to the client
-        res.json(err);
-      });
-  });
 
 // start the server
 app.listen(PORT, function(){
